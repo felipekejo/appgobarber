@@ -1,7 +1,7 @@
-import React from 'react'
-import { TextInputProps } from 'react-native'
+import React from 'react';
+import { TextInputProps } from 'react-native';
 
-import { Container, TextInput, Icon } from './styles'
+import { Container, TextInput, Icon } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
@@ -17,6 +17,6 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => (
       {...rest}
     />
   </Container>
-)
+);
 
-export default Input
+export default Input;
