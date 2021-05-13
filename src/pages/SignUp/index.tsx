@@ -15,7 +15,7 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import api from '../../services/api';
 
-import getvalidationErrors from '../../utils/getValidationErrors';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -45,7 +45,7 @@ const SignUp: React.FC = () => {
           name: Yup.string().required('Nome obrigatório'),
           email: Yup.string()
             .required('E-mail obrigatório')
-            .email('Digite um e-mailo valido'),
+            .email('Digite um e-mail valido'),
           password: Yup.string().min(6, 'No mínimo 6 dígitos'),
         });
 
@@ -61,7 +61,7 @@ const SignUp: React.FC = () => {
         navigation.goBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
-          const errors = getvalidationErrors(err);
+          const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
 
           return;

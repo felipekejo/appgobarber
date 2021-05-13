@@ -8,9 +8,16 @@ import React, {
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string;
+}
+
 interface AuthState {
   token: string;
-  mappedUser: object;
+  user: User;
 }
 
 interface SignInCredentials {
@@ -19,7 +26,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  mappedUser: object;
+  user: User;
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -32,12 +39,12 @@ const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
-      const [token, mappedUser] = await AsyncStorage.multiGet([
+      const [token, user] = await AsyncStorage.multiGet([
         '@GoBarber:token',
         '@GoBarber:user',
       ]);
-      if (token[1] && mappedUser[1]) {
-        setData({ token: token[1], mappedUser: JSON.parse(mappedUser[1]) });
+      if (token[1] && user[1]) {
+        setData({ token: token[1], user: JSON.parse(user[1]) });
       }
       setLoading(false);
     }
@@ -49,14 +56,14 @@ const AuthProvider: React.FC = ({ children }) => {
       email,
       password,
     });
-    const { token, mappedUser } = response.data;
+    const { token, user } = response.data;
 
     await AsyncStorage.multiSet([
       ['@GoBarber:token', token],
-      ['@GoBarber:user', JSON.stringify(mappedUser)],
+      ['@GoBarber:user', JSON.stringify(user)],
     ]);
 
-    setData({ token, mappedUser });
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(async () => {
@@ -66,9 +73,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ mappedUser: data.mappedUser, signIn, signOut, loading }}
-    >
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut, loading }}>
       {children}
     </AuthContext.Provider>
   );

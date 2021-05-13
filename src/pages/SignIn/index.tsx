@@ -14,7 +14,7 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import getvalidationErrors from '../../utils/getValidationErrors';
+import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/auth';
 
 import Input from '../../components/Input';
@@ -62,7 +62,7 @@ const SignIn: React.FC = () => {
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
-          const errors = getvalidationErrors(err);
+          const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
           return;
         }

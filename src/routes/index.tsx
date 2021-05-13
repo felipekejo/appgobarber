@@ -6,7 +6,7 @@ import AppRoutes from './app.routes';
 import { useAuth } from '../hooks/auth';
 
 const Routes: React.FC = () => {
-  const { mappedUser, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -16,6 +16,6 @@ const Routes: React.FC = () => {
     );
   }
 
-  return mappedUser ? <AppRoutes /> : <AuthRoutes />;
+  return user ? <AppRoutes /> : <AuthRoutes />;
 };
 export default Routes;
