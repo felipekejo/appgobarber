@@ -151,7 +151,7 @@ const Profile: React.FC = () => {
   }, [navigation]);
 
   return (
-    <>
+    <ScrollView>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -252,7 +252,7 @@ const Profile: React.FC = () => {
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
-    </>
+    </ScrollView>
   );
 };
 
