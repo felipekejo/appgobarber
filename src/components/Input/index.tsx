@@ -14,6 +14,7 @@ import { Container, TextInput, Icon } from './styles';
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
+  containerStyle?: {};
 }
 
 interface InputValueReference {
@@ -24,7 +25,7 @@ interface InputRef {
   focus(): void;
 }
 const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
-  { name, icon, ...rest },
+  { name, icon, containerStyle = {}, ...rest },
   ref,
 ) => {
   const InputElementRef = useRef<any>(null);
@@ -33,7 +34,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
-  const handleInputFcous = useCallback(() => {
+  const handleInputFocus = useCallback(() => {
     setIsFocused(true);
   }, []);
   const handleInputBlur = useCallback(() => {
@@ -56,7 +57,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
         inputValueRef.current.value = value;
         InputElementRef.current.setNativeProps({ text: value });
       },
-      clearValue() {
+      clearValue(ref: any) {
         inputValueRef.current.value = '';
         InputElementRef.current.clear();
       },
@@ -64,7 +65,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   }, [fieldName, registerField]);
 
   return (
-    <Container isFocused={isFocused} isErrored={!!error}>
+    <Container style={containerStyle} isFocused={isFocused} isErrored={!!error}>
       <Icon
         name={icon}
         size={20}
@@ -74,7 +75,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
         ref={InputElementRef}
         placeholderTextColor="#666360"
         keyboardAppearance="dark"
-        onFocus={handleInputFcous}
+        onFocus={handleInputFocus}
         defaultValue={defaultValue}
         onBlur={handleInputBlur}
         onChangeText={value => {
